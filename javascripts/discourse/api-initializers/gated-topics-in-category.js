@@ -15,6 +15,10 @@ export default apiInitializer("0.11.1", (api) => {
     return;
   }
 
+  if (!settings.hide_private_group) {
+    return;
+  }
+
   api.modifyClass("controller:groups-index", {
     pluginId: PLUGIN_ID,
 

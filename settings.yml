@@ -13,6 +13,10 @@ allowed_groups:
   list_type: group
   default: ""
   description: "Choose which groups users need to be a member of to view the content."
+hide_private_group:
+  type: bool
+  default: true
+  description: "Hide the allowed groups from the groups page if user is not the owner."
 custom_button_link:
   type: string
   default: "/s/prod_NbacDHyXJsrLNv"
