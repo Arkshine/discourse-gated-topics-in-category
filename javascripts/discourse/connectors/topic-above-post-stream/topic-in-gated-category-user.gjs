@@ -6,8 +6,8 @@ import TopicInGatedCategoryUser from "../../components/topic-in-gated-category-u
 export default class TopicInGatedCategoryUserConnector extends Component {
   <template>
     <TopicInGatedCategoryUser
-      @categoryId={{model.category_id}}
-      @tags={{model.tags}}
+      @categoryId={{this.model.category_id}}
+      @tags={{this.model.tags}}
     />
   </template>
 }

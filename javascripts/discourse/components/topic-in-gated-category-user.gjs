@@ -1,5 +1,6 @@
 import Component from "@ember/component";
 import { tagName } from "@ember-decorators/component";
+import discourseComputed from "discourse/lib/decorators";
 import { i18n } from "discourse-i18n";
 
 let enabledCategoriesUser, enabledTagsUser, allowedGroups;
@@ -65,7 +66,7 @@ export default class TopicInGatedCategoryUser extends Component {
 
   @discourseComputed("hidden_user")
   shouldShow(hidden_user) {
-    return !this.hidden_user;
+    return !hidden_user;
   }
 
   <template>
