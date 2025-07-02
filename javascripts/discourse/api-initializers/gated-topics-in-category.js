@@ -1,7 +1,5 @@
-import { apiInitializer } from "discourse/lib/api";
 import { action } from "@ember/object";
-
-const PLUGIN_ID = "gated-topics-in-category";
+import { apiInitializer } from "discourse/lib/api";
 
 const allowedGroups = settings.allowed_groups
   .split("|")
@@ -19,26 +17,28 @@ export default apiInitializer("0.11.1", (api) => {
     return;
   }
 
-  api.modifyClass("controller:groups-index", {
-    pluginId: PLUGIN_ID,
+  api.modifyClass(
+    "controller:groups-index",
+    (Superclass) =>
+      class extends Superclass {
+        @action
+        loadMore() {
+          if (this.groups && this.groups.length > 0) {
+            const groupsToRemove = this.groups.filter((group) => {
+              return (
+                allowedGroups.includes(group.id) &&
+                group.isPrivate &&
+                !group.is_group_owner
+              );
+            });
 
-    @action
-    loadMore() {
-      if (this.groups && this.groups.length > 0) {
-        const groupsToRemove = this.groups.filter((group) => {
-          return (
-            allowedGroups.includes(group.id) &&
-            group.isPrivate &&
-            !group.is_group_owner
-          );
-        });
+            if (groupsToRemove.length > 0) {
+              this.groups.removeObjects(groupsToRemove);
+            }
+          }
 
-        if (groupsToRemove.length > 0) {
-          this.groups.removeObjects(groupsToRemove);
+          this.groups && this.groups.loadMore();
         }
       }
-
-      this.groups && this.groups.loadMore();
-    },
-  });
+  );
 });
